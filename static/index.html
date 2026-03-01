@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Club Room Noise Monitor</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta http-equiv="refresh" content="5"> </head>
+<body style="font-family: sans-serif; text-align: center;">
+    <h2>Live Room Noise Levels</h2>
+    <div style="width: 80%; margin: auto;">
+        <canvas id="noiseChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('noiseChart').getContext('2d');
+        const noiseChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ labels | tojson }},
+                datasets: [{
+                    label: 'Peak-to-Peak Amplitude',
+                    data: {{ values | tojson }},
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                    fill: true
+                }]
+            },
+            options: {
+                scales: { y: { beginAtZero: true, max: 4095 } }
+            }
+        });
+    </script>
+    <p>Page auto-refreshes every 5 seconds.</p>
+</body>
+</html>
