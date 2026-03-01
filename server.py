@@ -6,7 +6,7 @@ import os
 from datetime import datetime
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="static")
 CSV_FILE = "noise_data.csv"
 
 # Ensure CSV exists
@@ -44,7 +44,7 @@ async def get_dashboard(request: Request):
             labels.append(row[0])
             values.append(int(row[1]))
             
-    return templates.TemplateResponse("dashboard.html", {
+    return templates.TemplateResponse("index.html", {
         "request": request, 
         "labels": labels, 
         "values": values
@@ -53,4 +53,4 @@ async def get_dashboard(request: Request):
 if __name__ == "__main__":
     import uvicorn
     # Ensure the 'templates' folder exists before running!
-    uvicorn.run(app, host="0.0.0.0", port=5000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
