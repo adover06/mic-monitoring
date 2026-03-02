@@ -5,6 +5,7 @@ import csv
 import os
 from datetime import datetime
 
+
 app = FastAPI()
 templates = Jinja2Templates(directory="static")
 CSV_FILE = "noise_data.csv"
@@ -17,7 +18,6 @@ if not os.path.exists(CSV_FILE):
 
 @app.get("/health")
 async def health_check():
-    """Simple endpoint to verify the server is up and reachable."""
     return {
         "status": "online",
         "timestamp": datetime.now().isoformat(),
@@ -33,7 +33,7 @@ async def log_noise(level: int = Form(...)):
         writer.writerow([timestamp, level])
     return {"status": "success"}
 
-@app.get("/dashboard", response_class=HTMLResponse)
+@app.get("/log", response_class=HTMLResponse)
 async def get_dashboard(request: Request):
     # Read the last 20 entries for the graph
     labels = []

@@ -25,18 +25,16 @@ void loop() {
   unsigned int signalMax = 0;
   unsigned int signalMin = 4095;
 
-  // Collect data for 50 milliseconds
   while (millis() - startMillis < sampleWindow) {
     int sample = analogRead(micPin);
-    if (sample < 4095) { // toss out spurious readings
+    if (sample < 4095) {
       if (sample > signalMax) signalMax = sample;
       else if (sample < signalMin) signalMin = sample;
     }
   }
   
-  peakToPeak = signalMax - signalMin; // Amplitude of the sound wave
+  peakToPeak = signalMax - signalMin;
   
-  // Send data to local server if WiFi is up
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
     http.begin(serverUrl);
