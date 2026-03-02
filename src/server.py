@@ -1,18 +1,19 @@
-from fastapi import FastAPI, Form, Request
-from fastapi.responses import HTMLResponse
-# from fastapi.templating import Jinja2Templates
-from fastapi.responses import FileResponse
-from fastapi.security import APIKeyHeader
 import csv
 import os
 from datetime import datetime
-import dotenv
 
-dotenv.load_dotenv()
+from fastapi import FastAPI, Form, Request, Depends, HTTPException, status
+from fastapi.responses import HTMLResponse, FileResponse
+# from fastapi.templating import Jinja2Templates
+from fastapi.security import APIKeyHeader
 
+from dotenv import load_dotenv
+from typing import Annotated
+
+load_dotenv()
 
 app = FastAPI()
-templates = Jinja2Templates(directory="static")
+# templates = Jinja2Templates(directory="static")
 api_key_header_scheme = APIKeyHeader(name="X-API-Key", auto_error=True)
 
 VALID_API_KEY = os.getenv("API_KEY")
