@@ -8,7 +8,7 @@ from datetime import datetime
 
 app = FastAPI()
 templates = Jinja2Templates(directory="static")
-CSV_FILE = "noise_data.csv"
+CSV_FILE = "data/noise_data.csv"
 
 # Ensure CSV exists
 if not os.path.exists(CSV_FILE):
