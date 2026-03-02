@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
-# from fastapi.templating import Jinja2Templates
+from fastapi.templating import Jinja2Templates
 from fastapi.responses import FileResponse
 from fastapi.security import APIKeyHeader
 import csv
@@ -33,14 +33,14 @@ async def get_api_key(x_api_key: Annotated[str, Depends(api_key_header_scheme)])
         )
     return x_api_key
 
-# @app.get("/health")
-# async def health_check():
-#     return {
-#         "status": "online",
-#         "timestamp": datetime.now().isoformat(),
-#         "storage_file": CSV_FILE,
-#         "storage_size": f"{os.path.getsize(CSV_FILE) / 1024:.2f} KB"
-#     }
+@app.get("/health")
+async def health_check():
+    return {
+        "status": "online",
+        "timestamp": datetime.now().isoformat(),
+        "storage_file": CSV_FILE,
+        "storage_size": f"{os.path.getsize(CSV_FILE) / 1024:.2f} KB"
+    }
 
 @app.post("/log", dependencies=[Depends(get_api_key)])
 async def log_noise(level: int = Form(...)):
@@ -50,31 +50,33 @@ async def log_noise(level: int = Form(...)):
         writer.writerow([timestamp, level])
     return {"status": "success"}
 
-# @app.get("/log", response_class=HTMLResponse)
-# async def get_dashboard(request: Request):
-#     # Read the last 20 entries for the graph
-#     labels = []
-#     values = []
-#     with open(CSV_FILE, "r") as f:
-#         rows = list(csv.reader(f))[1:] # Skip header
-#         for row in rows[-20:]: # Get last 20
-#             labels.append(row[0])
-#             values.append(int(row[1]))
+@app.get("/log", response_class=HTMLResponse)
+async def get_dashboard(request: Request):
+    # Read the last 20 entries for the graph
+    labels = []
+    values = []
+    with open(CSV_FILE, "r") as f:
+        rows = list(csv.reader(f))[1:] # Skip header
+        for row in rows[-20:]: # Get last 20
+            labels.append(row[0])
+            values.append(int(row[1]))
             
-#     return templates.TemplateResponse("index.html", {
-#         "request": request, 
-#         "labels": labels, 
-#         "values": values
-#     })
+    return templates.TemplateResponse("index.html", {
+        "request": request, 
+        "labels": labels, 
+        "values": values
+    })
 
-# @app.get("/download_data", response_class=HTMLResponse)
-# async def get_data(request: Request):
-#     file_path = CSV_FILE
-#     return FileResponse(
-#             file_path, 
-#             media_type='application/octet-stream', 
-#             filename="sound_data.csv"
-#     )
+@app.get("/download_data", response_class=HTMLResponse)
+async def get_data(request: Request):
+    file_path = CSV_FILE
+    return FileResponse(
+            file_path, 
+            media_type='application/octet-stream', 
+            filename="sound_data.csv"
+    )
+    
+    
 
 if __name__ == "__main__":
     import uvicorn
