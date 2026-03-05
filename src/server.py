@@ -43,7 +43,7 @@ async def get_api_key(x_api_key: Annotated[str, Depends(api_key_header_scheme)])
 #         "storage_size": f"{os.path.getsize(CSV_FILE) / 1024:.2f} KB"
 #     }
 
-@app.post("/log", dependencies=[Depends(get_api_key)])
+@app.post("/sound", dependencies=[Depends(get_api_key)])
 async def log_noise(level: int = Form(...)):
     timestamp = datetime.now().strftime("%H:%M:%S")
     with open(CSV_FILE, "a", newline="") as f:
@@ -51,7 +51,7 @@ async def log_noise(level: int = Form(...)):
         writer.writerow([timestamp, level])
     return {"status": "success"}
 
-# @app.get("/log", response_class=HTMLResponse)
+# @app.get("/sound", response_class=HTMLResponse)
 # async def get_dashboard(request: Request):
 #     # Read the last 20 entries for the graph
 #     labels = []
@@ -80,4 +80,4 @@ async def log_noise(level: int = Form(...)):
 if __name__ == "__main__":
     import uvicorn
     # Ensure the 'templates' folder exists before running!
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=5005)

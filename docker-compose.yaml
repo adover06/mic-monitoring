@@ -1,8 +1,14 @@
 services:
   server:
+    container_name: mic-monitering-server
     build: .
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "5005:5005"
     volumes:
       - ./data:/data
+
+networks:
+  default:
+    external:
+      name: sce
