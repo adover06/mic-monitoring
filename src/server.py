@@ -80,4 +80,4 @@ async def log_noise(level: int = Form(...)):
 if __name__ == "__main__":
     import uvicorn
     # Ensure the 'templates' folder exists before running!
-    uvicorn.run(app, host="0.0.0.0", port=5005)
+    uvicorn.run(app, host="0.0.0.0", port=80)

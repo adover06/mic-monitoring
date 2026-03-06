@@ -3,12 +3,14 @@ services:
     container_name: mic-monitering-server
     build: .
     restart: unless-stopped
-    ports:
-      - "5005:5005"
     volumes:
       - ./data:/data
-
+    networks:
+      sce:
+        aliases:
+          - mic-monitering-server.sce
+          - mic-monitering-server
 networks:
-  default:
-    external:
-      name: sce
+  sce:
+    external: true
+    name: sce
