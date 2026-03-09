@@ -17,7 +17,7 @@ app = FastAPI()
 api_key_header_scheme = APIKeyHeader(name="X-API-Key", auto_error=True)
 
 VALID_API_KEY = os.getenv("API_KEY")
-CSV_FILE = "data/noise_data.csv"
+CSV_FILE = "../data/noise_data.csv"
 
 # Ensure CSV exists
 if not os.path.exists(CSV_FILE):

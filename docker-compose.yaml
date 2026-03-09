@@ -1,16 +1,13 @@
+version: '3'
+
 services:
-  server:
-    container_name: mic-monitoring-server
+  mic-monitoring-server:
     build: .
     restart: unless-stopped
     volumes:
       - ./data:/data
-    networks:
-      sce:
-        aliases:
-          - mic-monitoring-server.sce
-          - mic-monitoring-server
+
 networks:
-  sce:
-    external: true
-    name: sce
+  default:
+    external:
+      name: sce
